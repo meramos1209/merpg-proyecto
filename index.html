@@ -6,72 +6,154 @@
   <title>Cronograma Filosofía — MERPG</title>
   <link rel="icon" type="image/png" href="merpg-favicon.png">
   <style>
-    body {font-family: system-ui; background:#0f172a; color:#e5e7eb; margin:0; padding:0;}
-    header {background:#1e293b; padding:1em; text-align:center;}
+    /* Estilos base del sitio */
+    :root { --bg:#0f172a; --card:#111827; --panel:#1e293b; --text:#e5e7eb; --muted:#9ca3af; --brand:#7e22ce; --brand2:#6d28d9; }
+    body {font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text); margin:0;}
+    header {background:var(--panel); padding:1em; text-align:center;}
     h1 {margin:0; font-size:1.4em;}
     main {max-width:800px; margin:2em auto; padding:0 1em;}
-    article {background:#111827; border-radius:10px; margin-bottom:1em; padding:1em; border:1px solid #2c2c2c;}
+    article {background:var(--card); border-radius:10px; margin-bottom:1em; padding:1em; border:1px solid #2c2c2c;}
     h2 {margin:0 0 .3em 0; color:#93c5fd;}
-    .fecha {color:#9ca3af; font-size:0.95em; margin-bottom:0.6em;}
-    a {display:inline-block; background:#7e22ce; color:white; padding:0.4em 0.8em; border-radius:6px; text-decoration:none;}
-    a:hover {background:#6d28d9;}
+    .fecha {color:var(--muted); font-size:0.95em; margin-bottom:0.6em;}
+    a.btn {display:inline-block; background:var(--brand); color:white; padding:0.45em 0.9em; border-radius:6px; text-decoration:none;}
+    a.btn:hover {background:var(--brand2);}
+
+    /* Overlay de acceso */
+    #gate {
+      position:fixed; inset:0; background:rgba(15,23,42,.96);
+      display:flex; align-items:center; justify-content:center; z-index:9999;
+    }
+    .gate-card{
+      width:min(92vw,440px); background:#0b1022; border:1px solid #2d2f4a; border-radius:14px; padding:22px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    .gate-head{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+    .gate-head img{width:24px; height:24px; border-radius:6px}
+    .gate-title{font-weight:700; font-size:1.05rem}
+    .gate-sub{color:#bfc6d9; font-size:.92rem; margin-bottom:14px}
+    label{display:block; font-size:.9rem; margin-bottom:6px; color:#cfd6ea}
+    .input{
+      width:100%; padding:.7em .9em; border-radius:10px; border:1px solid #3a3f63; background:#0f1430; color:#e9edff;
+      outline:none;
+    }
+    .input:focus{border-color:#7e22ce}
+    .row{display:flex; gap:10px; align-items:center; justify-content:space-between; margin-top:10px}
+    .btn{
+      border:none; border-radius:10px; padding:.65em 1rem; cursor:pointer; font-weight:600;
+      background:#7e22ce; color:white;
+    }
+    .btn:hover{background:#6d28d9}
+    .hint{color:#9aa3c7; font-size:.8rem}
+    .error{color:#ff6b6b; font-size:.85rem; margin-top:8px; min-height:1.1em}
+    .hide{display:none}
   </style>
 </head>
 <body>
+
+  <!-- Overlay de clave -->
+  <div id="gate">
+    <div class="gate-card" role="dialog" aria-labelledby="t" aria-describedby="d">
+      <div class="gate-head">
+        <img src="merpg-favicon.png" alt="MERPG">
+        <div class="gate-title" id="t">Área privada de estudio MERPG</div>
+      </div>
+      <div class="gate-sub" id="d">Introduce la clave para acceder al cronograma.</div>
+
+      <form id="gateForm">
+        <label for="pass">Clave de acceso</label>
+        <input id="pass" class="input" type="password" inputmode="text" autocomplete="current-password" placeholder="••••••••" required>
+        <div class="row">
+          <label class="hint"><input type="checkbox" id="remember"> Recordar en esta sesión</label>
+          <button class="btn" type="submit">Entrar</button>
+        </div>
+        <div id="msg" class="error"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenido real (se revela al validar) -->
+  <div id="app" class="hide">
+    <header>
+      <h1>🪷 Cronograma Filosofía — Octubre y Noviembre 2025</h1>
+    </header>
+    <main>
+      <article>
+        <h2>El dinacharya con Sofía</h2>
+        <div class="fecha">Miércoles, 22 de octubre · 7:00–8:00 a. m.</div>
+        <a class="btn" href="https://meet.google.com/ocx-rofr-sme" target="_blank">Entrar a la clase</a>
+      </article>
+
+      <article>
+        <h2>Historia de la India y Ayurveda con Sofía</h2>
+        <div class="fecha">Miércoles, 29 de octubre · 11:00 a. m.–12:00 p. m.</div>
+        <a class="btn" href="https://meet.google.com/jub-qbic-bxj" target="_blank">Entrar a la clase</a>
+      </article>
+
+      <article>
+        <h2>Las causas de la enfermedad con Sofía</h2>
+        <div class="fecha">Martes, 4 de noviembre · 8:00–9:00 p. m.</div>
+        <a class="btn" href="https://meet.google.com/ocx-rofr-sme" target="_blank">Entrar a la clase</a>
+      </article>
+
+      <article>
+        <h2>Los 24 tattvas con Sofía</h2>
+        <div class="fecha">Miércoles, 12 de noviembre · 8:00–9:00 p. m.</div>
+        <a class="btn" href="https://meet.google.com/jub-qbic-bxj" target="_blank">Entrar a la clase</a>
+      </article>
+
+      <article>
+        <h2>Preguntas y respuestas con Sofía</h2>
+        <div class="fecha">Miércoles, 19 de noviembre · 7:00–8:00 a. m.</div>
+        <a class="btn" href="https://meet.google.com/ocx-rofr-sme" target="_blank">Entrar a la clase</a>
+      </article>
+
+      <article>
+        <h2>CLASE OBLIGATORIA — Revisión de guía con Marcela</h2>
+        <div class="fecha">Sábado, 22 de noviembre · 8:00–11:00 a. m.</div>
+        <a class="btn" href="https://meet.google.com/tfp-quyw-dxk" target="_blank">Entrar a la clase</a>
+      </article>
+
+      <article>
+        <h2>Resumen del módulo con Sofía</h2>
+        <div class="fecha">Sábado, 22 de noviembre · 1:00–4:00 p. m.</div>
+        <a class="btn" href="https://meet.google.com/xmf-tgar-ete" target="_blank">Entrar a la clase</a>
+      </article>
+    </main>
+  </div>
+
   <script>
-  const clave = prompt("Introduce la clave de acceso:");
-  if (clave !== "veda360") {
-    document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:20%;'>Acceso restringido 🕉️</h2>";
-  }
-</script>
-  <header>
-    <h1>Cronograma Filosofía — Octubre y Noviembre 2025</h1>
-  </header>
-  <main>
+    // ✅ Cambia aquí tu clave
+    const PASSWORD = "veda360";
 
-    <article>
-      <h2>El dinacharya con Sofía</h2>
-      <div class="fecha">Miércoles, 22 de octubre · 7:00–8:00 a. m.</div>
-      <a href="https://meet.google.com/ocx-rofr-sme" target="_blank">Entrar a la clase</a>
-    </article>
+    const $gate = document.getElementById('gate');
+    const $app  = document.getElementById('app');
+    const $form = document.getElementById('gateForm');
+    const $pass = document.getElementById('pass');
+    const $msg  = document.getElementById('msg');
+    const $remember = document.getElementById('remember');
 
-    <article>
-      <h2>Historia de la India y Ayurveda con Sofía</h2>
-      <div class="fecha">Miércoles, 29 de octubre · 11:00 a. m.–12:00 p. m.</div>
-      <a href="https://meet.google.com/jub-qbic-bxj" target="_blank">Entrar a la clase</a>
-    </article>
+    // Si ya está validado en esta sesión, entra directo
+    if (sessionStorage.getItem('merpg_ok') === '1') {
+      $gate.style.display = 'none';
+      $app.classList.remove('hide');
+    } else {
+      $pass.focus();
+    }
 
-    <article>
-      <h2>Las causas de la enfermedad con Sofía</h2>
-      <div class="fecha">Martes, 4 de noviembre · 8:00–9:00 p. m.</div>
-      <a href="https://meet.google.com/ocx-rofr-sme" target="_blank">Entrar a la clase</a>
-    </article>
-
-    <article>
-      <h2>Los 24 tattvas con Sofía</h2>
-      <div class="fecha">Miércoles, 12 de noviembre · 8:00–9:00 p. m.</div>
-      <a href="https://meet.google.com/jub-qbic-bxj" target="_blank">Entrar a la clase</a>
-    </article>
-
-    <article>
-      <h2>Preguntas y respuestas con Sofía</h2>
-      <div class="fecha">Miércoles, 19 de noviembre · 7:00–8:00 a. m.</div>
-      <a href="https://meet.google.com/ocx-rofr-sme" target="_blank">Entrar a la clase</a>
-    </article>
-
-    <article>
-      <h2>CLASE OBLIGATORIA — Revisión de guía con Marcela</h2>
-      <div class="fecha">Sábado, 22 de noviembre · 8:00–11:00 a. m.</div>
-      <a href="https://meet.google.com/tfp-quyw-dxk" target="_blank">Entrar a la clase</a>
-    </article>
-
-    <article>
-      <h2>Resumen del módulo con Sofía</h2>
-      <div class="fecha">Sábado, 22 de noviembre · 1:00–4:00 p. m.</div>
-      <a href="https://meet.google.com/xmf-tgar-ete" target="_blank">Entrar a la clase</a>
-    </article>
-
-  </main>
+    $form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if ($pass.value === PASSWORD) {
+        if ($remember.checked) sessionStorage.setItem('merpg_ok','1');
+        $gate.style.display = 'none';
+        $app.classList.remove('hide');
+      } else {
+        $msg.textContent = "Clave incorrecta. Inténtalo de nuevo.";
+        $pass.value = "";
+        $pass.focus();
+      }
+    });
+  </script>
 </body>
 </html>
+
 
