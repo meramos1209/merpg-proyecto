@@ -213,18 +213,21 @@ p{margin:.5rem 0 1rem}
 .cap-hint{ color:#94a3b8; opacity:.8; }
 .cap-subtitle{ color:#cbd5e1; font-weight:700; }
 
-/* Imagen de portada (Home) */
+/* Imagen de portada (Home) — OPCIONAL: modo imagen completa */
 .hero{
   margin: -1.5rem -1.5rem 1.5rem -1.5rem; /* se estira hasta los bordes del panel */
   overflow: hidden;
   border-radius: 0 0 16px 16px;
+  background-color: #0f172a; /* fondo para evitar franjas blancas */
 }
 
 .hero-img{
   width: 100%;
   display: block;
-  max-height: 260px;
-  object-fit: cover;
+  max-height: none;             /* antes: 260px */
+  object-fit: contain;          /* antes: cover */
+  background-color: #0f172a;    /* se usa si la imagen no llena todo */
+  padding: 0.5rem;              /* opcional: da respiración */
 }
 
 /* === Mis Anotaciones: búsqueda === */
@@ -310,3 +313,4 @@ p{margin:.5rem 0 1rem}
     flex-direction: column;
   }
 }
+
