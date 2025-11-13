@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Estudio Ayurveda — MERPG</title>
+  <link rel="icon" type="image/png" href="merpg-favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header / Menú -->
+  <header class="site-header">
+    <div class="brand">Estudio Ayurveda</div>
+
+    <input id="menu-toggle" type="checkbox" aria-label="Abrir menú" />
+    <label class="hamburger" for="menu-toggle" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </label>
+
+    <nav class="site-nav">
+      <a class="active" href="#inicio">Inicio</a>
+      <a href="#cronogramas">Cronogramas</a>
+      <a href="#capitulos">Capítulos</a>
+      <a href="#anotaciones">Mis Anotaciones</a>
+      <a href="#agente">Agente IA</a>
+      <a href="https://drive.google.com/drive/u/0/folders/1aOpZdC9DmRuaJtdhFPqYkcrVoybnpXiz" target="_blank" rel="noopener">PAM</a>
+    </nav>
+  </header>
+
+  <!-- Inicio -->
+  <main class="content page" id="inicio">
+   <figure class="hero">
+    <img
+      src="quiver-trees.jpeg"
+      alt="Paisaje nocturno con árboles iluminados bajo un cielo estrellado"
+      class="hero-img"
+    />
+   </figure>
+    <h1>Bienvenida</h1>
+    <p>Usa el menú para navegar. Solo verás una sección a la vez.</p>
+  </main>
+
+  <!-- Cronogramas -->
+  <section class="content page" id="cronogramas" aria-label="Cronogramas">
+    <h2>Cronograma Filosofía — Octubre y Noviembre 2025</h2>
+
+    <article class="cron">
+      <h3>El dinacharya con Sofía</h3>
+      <div class="fecha">Miércoles, 22 de octubre · 7:00–8:00 a. m.</div>
+      <a href="https://meet.google.com/ocx-rofr-sme" target="_blank" rel="noopener">Entrar a la clase</a>
+    </article>
+
+    <article class="cron">
+      <h3>Historia de la India y Ayurveda con Sofía</h3>
+      <div class="fecha">Miércoles, 29 de octubre · 11:00 a. m.–12:00 p. m.</div>
+      <a href="https://meet.google.com/jub-qbic-bxj" target="_blank" rel="noopener">Entrar a la clase</a>
+    </article>
+
+    <article class="cron">
+      <h3>Las causas de la enfermedad con Sofía</h3>
+      <div class="fecha">Martes, 4 de noviembre · 8:00–9:00 p. m.</div>
+      <a href="https://meet.google.com/ocx-rofr-sme" target="_blank" rel="noopener">Entrar a la clase</a>
+    </article>
+
+    <article class="cron">
+      <h3>Los 24 tattvas con Sofía</h3>
+      <div class="fecha">Miércoles, 12 de noviembre · 8:00–9:00 p. m.</div>
+      <a href="https://meet.google.com/jub-qbic-bxj" target="_blank" rel="noopener">Entrar a la clase</a>
+    </article>
+
+    <article class="cron">
+      <h3>Preguntas y respuestas con Sofía</h3>
+      <div class="fecha">Miércoles, 19 de noviembre · 7:00–8:00 a. m.</div>
+      <a href="https://meet.google.com/ocx-rofr-sme" target="_blank" rel="noopener">Entrar a la clase</a>
+    </article>
+
+    <article class="cron">
+      <h3>CLASE OBLIGATORIA — Revisión de guía con Marcela</h3>
+      <div class="fecha">Sábado, 22 de noviembre · 8:00–11:00 a. m.</div>
+      <a href="https://meet.google.com/tfp-quyw-dxk" target="_blank" rel="noopener">Entrar a la clase</a>
+    </article>
+
+    <article class="cron">
+      <h3>Resumen del módulo con Sofía</h3>
+      <div class="fecha">Sábado, 22 de noviembre · 1:00–4:00 p. m.</div>
+      <a href="https://meet.google.com/xmf-tgar-ete" target="_blank" rel="noopener">Entrar a la clase</a>
+    </article>
+  </section>
+
+  <!-- Capítulos -->
+<section class="content page" id="capitulos" aria-label="Capítulos">
+  <h2>Capítulo Uno: Filosofía</h2>
+
+  <!-- INTRODUCCIÓN -->
+  <details class="cap" data-section="cap1-introduccion">
+    <summary>Introducción</summary>
+    <ul class="bullets">
+      <li>Definiendo Ayurveda</li>
+      <li>Salud y enfermedad</li>
+      <li>Los objetivos del profesional de Ayurveda</li>
+    </ul>
+
+    <div class="cap-tools">
+      <label class="cap-label">Notas del capítulo</label>
+      <textarea class="cap-notes" placeholder="Escribe aquí tus notas personales…"></textarea>
+      <button class="btn" data-action="save-notes">Guardar notas</button>
+
+      <div class="cap-divider"></div>
+
+      <label class="cap-label">Mapas mentales (URLs de PDF)</label>
+      <div class="cap-row">
+        <input class="cap-url" type="url" placeholder="Pega una URL (Drive, Dropbox, etc.)" />
+        <button class="btn" data-action="add-url">Añadir</button>
+      </div>
+      <ul class="cap-links"></ul>
+    </div>
+  </details>
+
+  <!-- MITOLOGÍA -->
+  <details class="cap" data-section="cap1-mitologia">
+    <summary>Mitología</summary>
+
+    <div class="cap-tools">
+      <label class="cap-label">Notas</label>
+      <textarea class="cap-notes" placeholder="Escribe aquí tus notas…"></textarea>
+      <button class="btn" data-action="save-notes">Guardar notas</button>
+
+      <div class="cap-divider"></div>
+
+      <label class="cap-label">Mapas mentales (URLs de PDF)</label>
+      <div class="cap-row">
+        <input class="cap-url" type="url" placeholder="Pega una URL (Drive, Dropbox, etc.)" />
+        <button class="btn" data-action="add-url">Añadir</button>
+      </div>
+      <ul class="cap-links"></ul>
+    </div>
+  </details>
+
+  <!-- HISTORIA -->
+  <details class="cap" data-section="cap1-historia">
+    <summary>Historia</summary>
+    <ul class="bullets">
+      <li>Línea de tiempo de la historia de India relevante al Ayurveda</li>
+      <li>La historia de Ayurveda a través de la literatura</li>
+    </ul>
+
+    <div class="cap-tools">
+      <label class="cap-label">Notas</label>
+      <textarea class="cap-notes" placeholder="Escribe aquí tus notas…"></textarea>
+      <button class="btn" data-action="save-notes">Guardar notas</button>
+
+      <div class="cap-divider"></div>
+
+      <label class="cap-label">Mapas mentales (URLs de PDF)</label>
+      <div class="cap-row">
+        <input class="cap-url" type="url" placeholder="Pega una URL (Drive, Dropbox, etc.)" />
+        <button class="btn" data-action="add-url">Añadir</button>
+      </div>
+      <ul class="cap-links"></ul>
+    </div>
+  </details>
+
+  <!-- FILOSOFÍA (DARSHANA) — con notas por subtítulo -->
+<details class="cap" data-section="cap1-darshana">
+  <summary>Filosofía (<em>Darshana</em>)</summary>
+
+  <!-- Lista de subtítulos como “tabs” -->
+  <ul class="bullets subtopics" role="list">
+    <li><button class="subtopic" data-sub="Sankhya">Filosofía <em>Sankhya</em></button></li>
+    <li><button class="subtopic" data-sub="Yoga"><em>Yoga</em></button></li>
+    <li><button class="subtopic" data-sub="Nyaya"><em>Nyaya</em></button></li>
+    <li><button class="subtopic" data-sub="Vaisheshika"><em>Vaisheshika</em></button></li>
+    <li><button class="subtopic" data-sub="Mimamsa"><em>Mimamsa</em></button></li>
+    <li><button class="subtopic" data-sub="Vedanta"><em>Vedanta</em></button></li>
+    <li><button class="subtopic" data-sub="Karma-rol">Karma y su rol en el proceso de enfermedad</button></li>
+    <li><button class="subtopic" data-sub="Karma-buen-mal">Buen <em>karma</em> y mal <em>karma</em></button></li>
+    <li><button class="subtopic" data-sub="Renacimiento">Renacimiento, <em>karma</em> y realización</button></li>
+    <li><button class="subtopic" data-sub="Metas-vida">Las cuatro metas de la vida</button></li>
+    <li><button class="subtopic" data-sub="Busquedas-vida">Los tres búsquedas (instintos naturales) de la vida</button></li>
+    <li><button class="subtopic" data-sub="Pilares-vida">Los tres pilares de la vida</button></li>
+  </ul>
+
+  <!-- Panel de edición por subtítulo -->
+  <div class="cap-tools">
+    <div class="cap-row" style="justify-content:space-between; gap:.75rem;">
+      <label class="cap-label" id="darshana-label">Notas — <span class="cap-subtitle">Seleccione un subtítulo</span></label>
+      <small class="cap-hint">Se guardan solo en este navegador (local).</small>
+    </div>
+
+    <textarea class="cap-notes" id="darshana-notes" placeholder="Escribe aquí tus notas para este subtítulo…"></textarea>
+    <button class="btn" id="darshana-save">Guardar notas</button>
+
+    <div class="cap-divider"></div>
+
+    <label class="cap-label">Mapas mentales (URLs de PDF) — <span class="cap-subtitle">Subtítulo no seleccionado</span></label>
+    <div class="cap-row">
+      <input class="cap-url" id="darshana-url" type="url" placeholder="Pega una URL (Drive, Dropbox, etc.)" />
+      <button class="btn" id="darshana-add">Añadir</button>
+    </div>
+    <ul class="cap-links" id="darshana-list"></ul>
+  </div>
+</details>
+
+
+  <details class="cap" data-section="cap1-notas">
+    <summary>Notas</summary>
+    <div class="cap-tools">
+      <label class="cap-label">Notas generales</label>
+      <textarea class="cap-notes" placeholder="Escribe aquí tus notas…"></textarea>
+      <button class="btn" data-action="save-notes">Guardar notas</button>
+    </div>
+  </details>
+
+  <details class="cap" data-section="cap1-bibliografia">
+    <summary>Bibliografía</summary>
+    <div class="cap-tools">
+      <label class="cap-label">Apuntes de bibliografía</label>
+      <textarea class="cap-notes" placeholder="Referencias, páginas…"></textarea>
+      <button class="btn" data-action="save-notes">Guardar notas</button>
+    </div>
+  </details>
+</section>
+
+
+<!-- Anotaciones -->
+<section class="content page" id="anotaciones" aria-label="Mis Anotaciones">
+  <h2>Mis Anotaciones</h2>
+  <p class="anotaciones-intro">
+    Aquí podrás buscar en todas las notas que has guardado en los capítulos y subtítulos.
+  </p>
+
+  <form id="search-form" class="search-box" onsubmit="return false;">
+    <label for="search-term">Buscar en mis notas</label>
+    <div class="search-row">
+      <input
+        type="text"
+        id="search-term"
+        placeholder="Escribe una palabra o frase…"
+        autocomplete="off"
+      />
+      <button type="button" id="search-button" class="btn">
+        Buscar
+      </button>
+    </div>
+  </form>
+
+  <div id="search-results" class="search-results">
+    <p class="search-empty">
+      Todavía no has hecho una búsqueda. Escribe algo arriba y pulsa <strong>Buscar</strong>.
+    </p>
+  </div>
+</section>
+
+  <!-- Agente IA -->
+  <section class="content page" id="agente" aria-label="Agente IA">
+    <h2>Agente IA</h2>
+    <p>Pendiente de contenido.</p>
+  </section>
+
+  <!-- Script de navegación tipo pestañas -->
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const links = document.querySelectorAll('.site-nav a[href^="#"]');
+
+    function show(hash) {
+      if (!hash) hash = '#inicio';                 // sección por defecto
+      const id = hash.slice(1);
+      pages.forEach(s => s.style.display = (s.id === id) ? 'block' : 'none');
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+      // Cierra menú móvil si estaba abierto
+      const toggle = document.getElementById('menu-toggle');
+      if (toggle) toggle.checked = false;
+    }
+
+    window.addEventListener('hashchange', () => show(location.hash));
+    show(location.hash);
+  </script>
+
+<script>
+  // ====== Notas y URLs por sección (localStorage) ======
+  const CAP_NOTE_KEY = id => `notes_${id}`;
+  const CAP_URLS_KEY = id => `pdfs_${id}`;
+
+  function loadSectionState(section){
+    const id = section.dataset.section;
+    const notesEl = section.querySelector('.cap-notes');
+    const listEl  = section.querySelector('.cap-links');
+
+    // Notas
+    if (notesEl){
+      notesEl.value = localStorage.getItem(CAP_NOTE_KEY(id)) || '';
+    }
+
+    // URLs
+    if (listEl){
+      const urls = JSON.parse(localStorage.getItem(CAP_URLS_KEY(id)) || '[]');
+      renderUrls(listEl, urls);
+    }
+  }
+
+  function renderUrls(ul, urls){
+    ul.innerHTML = '';
+    urls.forEach((u, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${u}" target="_blank" rel="noopener">${u}</a>
+                      <button data-idx="${i}" title="Eliminar">✕</button>`;
+      ul.appendChild(li);
+    });
+  }
+
+  function saveNotes(section){
+    const id = section.dataset.section;
+    const notesEl = section.querySelector('.cap-notes');
+    localStorage.setItem(CAP_NOTE_KEY(id), notesEl.value || '');
+  }
+
+  function addUrl(section){
+    const id = section.dataset.section;
+    const input = section.querySelector('.cap-url');
+    const listEl = section.querySelector('.cap-links');
+    const url = (input.value || '').trim();
+    if(!url) return;
+
+    const urls = JSON.parse(localStorage.getItem(CAP_URLS_KEY(id)) || '[]');
+    urls.push(url);
+    localStorage.setItem(CAP_URLS_KEY(id), JSON.stringify(urls));
+    renderUrls(listEl, urls);
+    input.value = '';
+  }
+
+  function removeUrl(section, idx){
+    const id = section.dataset.section;
+    const listEl = section.querySelector('.cap-links');
+    const urls = JSON.parse(localStorage.getItem(CAP_URLS_KEY(id)) || '[]');
+    urls.splice(idx, 1);
+    localStorage.setItem(CAP_URLS_KEY(id), JSON.stringify(urls));
+    renderUrls(listEl, urls);
+  }
+
+  // Inicializa cada <details.cap>
+  document.querySelectorAll('details.cap').forEach(section => {
+    loadSectionState(section);
+
+    section.addEventListener('click', (e) => {
+      const act = e.target?.dataset?.action;
+      if (act === 'save-notes'){ saveNotes(section); }
+      if (act === 'add-url'){ addUrl(section); }
+      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-idx')){
+        removeUrl(section, Number(e.target.dataset.idx));
+      }
+    });
+  });
+</script>
+<script>
+/* ===== Notas por subtítulo: Darshana ===== */
+(function () {
+  const sectionId = 'cap1-darshana';
+  const root = document.querySelector(`details.cap[data-section="${sectionId}"]`);
+  if (!root) return;
+
+  // Controles
+  const btns = root.querySelectorAll('.subtopic');
+  const notesEl = root.querySelector('#darshana-notes');
+  const saveBtn = root.querySelector('#darshana-save');
+  const urlInput = root.querySelector('#darshana-url');
+  const addBtn = root.querySelector('#darshana-add');
+  const listEl = root.querySelector('#darshana-list');
+  const subtitleEls = root.querySelectorAll('.cap-subtitle');
+
+  // Claves por subtítulo
+  const noteKey = (sub) => `notes_${sectionId}__${sub}`;
+  const urlKey  = (sub) => `pdfs_${sectionId}__${sub}`;
+
+  let currentSub = null;
+
+  function setSubtitleLabel(text){
+    subtitleEls.forEach(el => el.textContent = text || '—');
+  }
+
+  function renderUrls(urls){
+    listEl.innerHTML = '';
+    urls.forEach((u, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${u}" target="_blank" rel="noopener">${u}</a>
+                      <button data-idx="${i}" title="Eliminar">✕</button>`;
+      listEl.appendChild(li);
+    });
+  }
+
+  function loadSubtopic(sub){
+    currentSub = sub;
+    // Estado visual active
+    btns.forEach(b => b.classList.toggle('active', b.dataset.sub === sub));
+    // Etiquetas
+    const btn = Array.from(btns).find(b => b.dataset.sub === sub);
+    const label = btn ? btn.textContent.trim() : sub;
+    setSubtitleLabel(label);
+
+    // Cargar notas
+    const saved = localStorage.getItem(noteKey(sub)) || '';
+    notesEl.value = saved;
+
+    // Cargar URLs
+    const urls = JSON.parse(localStorage.getItem(urlKey(sub)) || '[]');
+    renderUrls(urls);
+  }
+
+  function saveNotes(){
+    if (!currentSub) return;
+    localStorage.setItem(noteKey(currentSub), notesEl.value || '');
+  }
+
+  function addUrl(){
+    if (!currentSub) return;
+    const url = (urlInput.value || '').trim();
+    if (!url) return;
+    const k = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.push(url);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+    urlInput.value = '';
+  }
+
+  function removeUrl(idx){
+    if (!currentSub) return;
+    const k = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.splice(idx, 1);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+  }
+
+  // Eventos
+  btns.forEach(b => b.addEventListener('click', () => loadSubtopic(b.dataset.sub)));
+  saveBtn.addEventListener('click', saveNotes);
+  addBtn.addEventListener('click', addUrl);
+  listEl.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-idx')){
+      removeUrl(Number(e.target.dataset.idx));
+    }
+  });
+
+  // Seleccionar el primero por defecto
+  if (btns.length) loadSubtopic(btns[0].dataset.sub);
+})();
+</script>
+
+</body>
+</html>
