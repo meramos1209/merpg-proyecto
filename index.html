@@ -134,26 +134,58 @@
     </div>
   </details>
 
-
-  <!-- MITOLOGÍA -->
+  <!-- MITOLOGÍA — con notas por subtítulo -->
   <details class="cap" data-section="cap1-mitologia">
     <summary>Mitología</summary>
 
+    <!-- Subtítulos como botones -->
+    <ul class="bullets subtopics" role="list">
+      <li>
+        <button class="subtopic" data-sub="Agitacion-oceanos">
+          La agitación de los océanos
+        </button>
+      </li>
+      <li>
+        <button class="subtopic" data-sub="Sr-Dhanvantari">
+          El Sr Dhanvantari
+        </button>
+      </li>
+    </ul>
+
+    <!-- Panel de edición por subtítulo -->
     <div class="cap-tools">
-      <label class="cap-label">Notas</label>
-      <textarea class="cap-notes" placeholder="Escribe aquí tus notas…"></textarea>
-      <button class="btn" data-action="save-notes">Guardar notas</button>
+      <div class="cap-row" style="justify-content:space-between; gap:.75rem;">
+        <label class="cap-label">
+          Notas — <span class="cap-subtitle">Seleccione un subtítulo</span>
+        </label>
+        <small class="cap-hint">Se guardan solo en este navegador (local).</small>
+      </div>
+
+      <textarea
+        class="cap-notes"
+        id="mito-notes"
+        placeholder="Escribe aquí tus notas para este subtítulo…"
+      ></textarea>
+      <button class="btn" id="mito-save">Guardar notas</button>
 
       <div class="cap-divider"></div>
 
-      <label class="cap-label">Mapas mentales (URLs de PDF)</label>
+      <label class="cap-label">
+        Mapas mentales (URLs de PDF) — <span class="cap-subtitle">Subtítulo no seleccionado</span>
+      </label>
       <div class="cap-row">
-        <input class="cap-url" type="url" placeholder="Pega una URL (Drive, Dropbox, etc.)" />
-        <button class="btn" data-action="add-url">Añadir</button>
+        <input
+          class="cap-url"
+          id="mito-url"
+          type="url"
+          placeholder="Pega una URL (Drive, Dropbox, etc.)"
+        />
+        <button class="btn" id="mito-add">Añadir</button>
       </div>
-      <ul class="cap-links"></ul>
+      <ul class="cap-links" id="mito-list"></ul>
     </div>
   </details>
+ 
 
   <!-- HISTORIA -->
   <details class="cap" data-section="cap1-historia">
@@ -374,7 +406,12 @@
     <p>Pendiente de contenido.</p>
   </section>
 
-  <!-- Script de navegación tipo pestañas -->
+/*--------------------------------------------------------------
+  ===== SISTEMA DE NAVEGACIÓN POR ANCLAS (HASH NAVIGATION) =====
+  Controla el comportamiento tipo “pestañas”. Cada sección .page
+  se muestra u oculta dependiendo del hash (#inicio, #capitulos).
+  También cierra el menú móvil después de navegar.
+--------------------------------------------------------------*/
   <script>
     const pages = document.querySelectorAll('.page');
     const links = document.querySelectorAll('.site-nav a[href^="#"]');
@@ -394,7 +431,12 @@
   </script>
 
 <script>
-  // ====== Notas y URLs por sección (localStorage) ======
+/*--------------------------------------------------------------
+  ===== SISTEMA GENERAL DE NOTAS POR SECCIÓN (SIN SUBTÍTULOS) =====
+  Maneja el guardado y carga de notas y URLs en secciones que no
+  tienen subtítulos. Usa claves de localStorage basadas en el ID
+  de cada <details> para notas globales del capítulo.
+--------------------------------------------------------------*/
   const CAP_NOTE_KEY = id => `notes_${id}`;
   const CAP_URLS_KEY = id => `pdfs_${id}`;
 
@@ -454,7 +496,12 @@
     renderUrls(listEl, urls);
   }
 
-  // Inicializa cada <details.cap>
+/*--------------------------------------------------------------
+  ===== INICIALIZACIÓN GLOBAL DE CADA SECCIÓN <details.cap> =====
+  Aplica guardado/carga de notas y URLs en secciones sin subtítulos.
+  Escucha clics internos en botones que activan save-notes o add-url,
+  además de eliminar enlaces de la lista.
+--------------------------------------------------------------*/
   document.querySelectorAll('details.cap').forEach(section => {
     loadSectionState(section);
 
@@ -469,7 +516,14 @@
   });
 </script>
 <script>
-/* ===== Notas por subtítulo: Darshana ===== */
+/*--------------------------------------------------------------
+  ===== NOTAS POR SUBTÍTULO: DARSHANA =====
+  Controla los botones de subtítulos de la sección Filosofía
+  (Darshana), permitiendo guardar notas y URLs por cada escuela
+  filosófica. Cada subtítulo guarda información independiente
+  usando claves específicas de localStorage.
+--------------------------------------------------------------*/
+
 (function () {
   const sectionId = 'cap1-darshana';
   const root = document.querySelector(`details.cap[data-section="${sectionId}"]`);
@@ -564,7 +618,12 @@
 </script>
 
 <script>
-/* ===== Notas por subtítulo: Introducción ===== */
+/*--------------------------------------------------------------
+  ===== NOTAS POR SUBTÍTULO: INTRODUCCIÓN =====
+  Bloque específico para almacenar y gestionar las notas y URLs
+  ligadas a cada subtítulo dentro de la sección Introducción.
+  Cada subtítulo mantiene su propio registro en localStorage.
+--------------------------------------------------------------*/
 (function () {
   const sectionId = 'cap1-introduccion';
   const root = document.querySelector(`details.cap[data-section="${sectionId}"]`);
@@ -660,8 +719,112 @@
   if (btns.length) loadSubtopic(btns[0].dataset.sub);
 })();
 </script>
+<script>
+/*--------------------------------------------------------------
+  ===== NOTAS POR SUBTÍTULO: MITOLOGÍA =====
+  Administra los subtítulos “La agitación de los océanos”
+  y “El Sr Dhanvantari”. Cada uno tiene sus notas y URLs
+  independientes, almacenadas con claves únicas en localStorage.
+--------------------------------------------------------------*/
+
+(function () {
+  const sectionId = 'cap1-mitologia';
+  const root = document.querySelector(`details.cap[data-section="${sectionId}"]`);
+  if (!root) return;
+
+  // Controles
+  const btns        = root.querySelectorAll('.subtopic');
+  const notesEl     = root.querySelector('#mito-notes');
+  const saveBtn     = root.querySelector('#mito-save');
+  const urlInput    = root.querySelector('#mito-url');
+  const addBtn      = root.querySelector('#mito-add');
+  const listEl      = root.querySelector('#mito-list');
+  const subtitleEls = root.querySelectorAll('.cap-subtitle');
+
+  // Claves por subtítulo en localStorage
+  const noteKey = (sub) => `notes_${sectionId}__${sub}`;
+  const urlKey  = (sub) => `pdfs_${sectionId}__${sub}`;
+
+  let currentSub = null;
+
+  function setSubtitleLabel(text){
+    subtitleEls.forEach(el => el.textContent = text || '—');
+  }
+
+  function renderUrls(urls){
+    listEl.innerHTML = '';
+    urls.forEach((u, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${u}" target="_blank" rel="noopener">${u}</a>
+                      <button data-idx="${i}" title="Eliminar">✕</button>`;
+      listEl.appendChild(li);
+    });
+  }
+
+  function loadSubtopic(sub){
+    currentSub = sub;
+
+    // Estado visual activo en los botones
+    btns.forEach(b => b.classList.toggle('active', b.dataset.sub === sub));
+
+    // Texto del subtítulo en las etiquetas
+    const btn   = Array.from(btns).find(b => b.dataset.sub === sub);
+    const label = btn ? btn.textContent.trim() : sub;
+    setSubtitleLabel(label);
+
+    // Cargar notas
+    const saved = localStorage.getItem(noteKey(sub)) || '';
+    notesEl.value = saved;
+
+    // Cargar URLs
+    const urls = JSON.parse(localStorage.getItem(urlKey(sub)) || '[]');
+    renderUrls(urls);
+  }
+
+  function saveNotes(){
+    if (!currentSub) return;
+    localStorage.setItem(noteKey(currentSub), notesEl.value || '');
+  }
+
+  function addUrl(){
+    if (!currentSub) return;
+    const url = (urlInput.value || '').trim();
+    if (!url) return;
+
+    const k    = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.push(url);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+    urlInput.value = '';
+  }
+
+  function removeUrl(idx){
+    if (!currentSub) return;
+    const k    = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.splice(idx, 1);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+  }
+
+  // Eventos
+  btns.forEach(b => b.addEventListener('click', () => loadSubtopic(b.dataset.sub)));
+  saveBtn.addEventListener('click', saveNotes);
+  addBtn.addEventListener('click', addUrl);
+  listEl.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-idx')){
+      removeUrl(Number(e.target.dataset.idx));
+    }
+  });
+
+  // Seleccionar el primer subtítulo por defecto
+  if (btns.length) loadSubtopic(btns[0].dataset.sub);
+})();
+</script>
 </body>
 </html>
+
 
 
 
