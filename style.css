@@ -313,4 +313,15 @@ p{margin:.5rem 0 1rem}
     flex-direction: column;
   }
 }
+/* Etiquetas de grupo dentro de Textos Ayurvédicos */
+.subgroup-label {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #9ca3af;      /* gris tenue */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 
