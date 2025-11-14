@@ -187,29 +187,58 @@
   </details>
  
 
-  <!-- HISTORIA -->
-  <details class="cap" data-section="cap1-historia">
-    <summary>Historia</summary>
-    <ul class="bullets">
-      <li>Línea de tiempo de la historia de India relevante al Ayurveda</li>
-      <li>La historia de Ayurveda a través de la literatura</li>
-    </ul>
+ <!-- HISTORIA — con notas por subtítulo -->
+<details class="cap" data-section="cap1-historia">
+  <summary>Historia</summary>
 
-    <div class="cap-tools">
-      <label class="cap-label">Notas</label>
-      <textarea class="cap-notes" placeholder="Escribe aquí tus notas…"></textarea>
-      <button class="btn" data-action="save-notes">Guardar notas</button>
+  <!-- Subtítulos como botones -->
+  <ul class="bullets subtopics" role="list">
+    <li><button class="subtopic" data-sub="Linea-tiempo">Línea de tiempo</button></li>
 
-      <div class="cap-divider"></div>
+    <!-- Literatura clásica -->
+    <li><button class="subtopic" data-sub="Vedas">Los Vedas</button></li>
+    <li><button class="subtopic" data-sub="Brahmanas">Brāhmaṇas</button></li>
+    <li><button class="subtopic" data-sub="Puranas">Purāṇas</button></li>
+    <li><button class="subtopic" data-sub="Upanishads">Upaniṣads</button></li>
+    <li><button class="subtopic" data-sub="Mahabharata">Mahābhārata</button></li>
+    <li><button class="subtopic" data-sub="Bhagavad-Gita">Bhagavad Gītā</button></li>
+    <li><button class="subtopic" data-sub="Ramayana">Rāmāyaṇa</button></li>
+  </ul>
 
-      <label class="cap-label">Mapas mentales (URLs de PDF)</label>
-      <div class="cap-row">
-        <input class="cap-url" type="url" placeholder="Pega una URL (Drive, Dropbox, etc.)" />
-        <button class="btn" data-action="add-url">Añadir</button>
-      </div>
-      <ul class="cap-links"></ul>
+  <!-- Panel de edición por subtítulo -->
+  <div class="cap-tools">
+    <div class="cap-row" style="justify-content:space-between; gap:.75rem;">
+      <label class="cap-label">
+        Notas — <span class="cap-subtitle">Seleccione un subtítulo</span>
+      </label>
+      <small class="cap-hint">Se guardan solo en este navegador (local).</small>
     </div>
-  </details>
+
+    <textarea
+      class="cap-notes"
+      id="hist-notes"
+      placeholder="Escribe aquí tus notas para este subtítulo…"
+    ></textarea>
+    <button class="btn" id="hist-save">Guardar notas</button>
+
+    <div class="cap-divider"></div>
+
+    <label class="cap-label">
+      Mapas mentales (URLs de PDF) — <span class="cap-subtitle">Subtítulo no seleccionado</span>
+    </label>
+    <div class="cap-row">
+      <input
+        class="cap-url"
+        id="hist-url"
+        type="url"
+        placeholder="Pega una URL (Drive, Dropbox, etc.)"
+      />
+      <button class="btn" id="hist-add">Añadir</button>
+    </div>
+    <ul class="cap-links" id="hist-list"></ul>
+  </div>
+</details>
+
 
   <!-- FILOSOFÍA (DARSHANA) — con notas por subtítulo -->
 <details class="cap" data-section="cap1-darshana">
@@ -822,8 +851,106 @@
   if (btns.length) loadSubtopic(btns[0].dataset.sub);
 })();
 </script>
+/*--------------------------------------------------------------
+  ===== NOTAS POR SUBTÍTULO: HISTORIA =====
+  Controla subtítulos relacionados con la historia de India y la
+  literatura clásica (Vedas, Upanishads, Itihasas, etc.). Cada uno
+  tiene notas y URLs independientes, guardadas en localStorage.
+--------------------------------------------------------------*/
+<script>
+(function () {
+  const sectionId = 'cap1-historia';
+  const root = document.querySelector(`details.cap[data-section="${sectionId}"]`);
+  if (!root) return;
+
+  // Controles
+  const btns        = root.querySelectorAll('.subtopic');
+  const notesEl     = root.querySelector('#hist-notes');
+  const saveBtn     = root.querySelector('#hist-save');
+  const urlInput    = root.querySelector('#hist-url');
+  const addBtn      = root.querySelector('#hist-add');
+  const listEl      = root.querySelector('#hist-list');
+  const subtitleEls = root.querySelectorAll('.cap-subtitle');
+
+  // Claves por subtítulo
+  const noteKey = (sub) => `notes_${sectionId}__${sub}`;
+  const urlKey  = (sub) => `pdfs_${sectionId}__${sub}`;
+
+  let currentSub = null;
+
+  function setSubtitleLabel(text){
+    subtitleEls.forEach(el => el.textContent = text || '—');
+  }
+
+  function renderUrls(urls){
+    listEl.innerHTML = '';
+    urls.forEach((u, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${u}" target="_blank" rel="noopener">${u}</a>
+                      <button data-idx="${i}" title="Eliminar">✕</button>`;
+      listEl.appendChild(li);
+    });
+  }
+
+  function loadSubtopic(sub){
+    currentSub = sub;
+
+    btns.forEach(b => b.classList.toggle('active', b.dataset.sub === sub));
+
+    const btn   = Array.from(btns).find(b => b.dataset.sub === sub);
+    const label = btn ? btn.textContent.trim() : sub;
+    setSubtitleLabel(label);
+
+    notesEl.value = localStorage.getItem(noteKey(sub)) || '';
+
+    const urls = JSON.parse(localStorage.getItem(urlKey(sub)) || '[]');
+    renderUrls(urls);
+  }
+
+  function saveNotes(){
+    if (!currentSub) return;
+    localStorage.setItem(noteKey(currentSub), notesEl.value || '');
+  }
+
+  function addUrl(){
+    if (!currentSub) return;
+    const url = (urlInput.value || '').trim();
+    if (!url) return;
+
+    const k    = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.push(url);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+    urlInput.value = '';
+  }
+
+  function removeUrl(idx){
+    if (!currentSub) return;
+    const k    = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.splice(idx, 1);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+  }
+
+  // Eventos
+  btns.forEach(b => b.addEventListener('click', () => loadSubtopic(b.dataset.sub)));
+  saveBtn.addEventListener('click', saveNotes);
+  addBtn.addEventListener('click', addUrl);
+  listEl.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-idx')){
+      removeUrl(Number(e.target.dataset.idx));
+    }
+  });
+
+  // Cargar primero
+  if (btns.length) loadSubtopic(btns[0].dataset.sub);
+})();
+</script>
 </body>
 </html>
+
 
 
 
