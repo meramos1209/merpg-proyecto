@@ -166,8 +166,14 @@
           id="mito-notes"
           placeholder="Escribe aquí tus notas para este subtítulo…"
         ></textarea>
+
         <button class="btn" id="mito-save">Guardar notas</button>
 
+        <div class="cap-status">
+          <small id="mito-status" role="status" aria-live="polite"></small><br />
+          <small id="mito-source"></small>
+        </div>
+        
         <div class="cap-divider"></div>
 
         <label class="cap-label">
@@ -660,109 +666,191 @@
     if (btns.length) loadSubtopic(btns[0].dataset.sub);
   })();
   </script>
+//aqui
+<script>
+/*--------------------------------------------------------------
+  ===== NOTAS POR SUBTÍTULO: MITOLOGÍA (FASE C: BACKEND) =====
+  - Notas: se guardan y cargan desde FastAPI (SQLite)
+  - URLs: se quedan en localStorage (sin tocar en esta fase)
+--------------------------------------------------------------*/
+(function () {
+  const sectionId = 'cap1-mitologia';
+  const root = document.querySelector(`details.cap[data-section="${sectionId}"]`);
+  if (!root) return;
 
-  <script>
-  /*--------------------------------------------------------------
-    ===== NOTAS POR SUBTÍTULO: MITOLOGÍA =====
-    Administra los subtítulos “La agitación de los océanos”
-    y “El Sr Dhanvantari”. Cada uno tiene sus notas y URLs
-    independientes, almacenadas con claves únicas en localStorage.
-  --------------------------------------------------------------*/
-  (function () {
-    const sectionId = 'cap1-mitologia';
-    const root = document.querySelector(`details.cap[data-section="${sectionId}"]`);
-    if (!root) return;
+  // Backend base (ajusta solo si cambias puerto)
+  const API_BASE = 'http://127.0.0.1:8000';
 
-    // Controles
-    const btns        = root.querySelectorAll('.subtopic');
-    const notesEl     = root.querySelector('#mito-notes');
-    const saveBtn     = root.querySelector('#mito-save');
-    const urlInput    = root.querySelector('#mito-url');
-    const addBtn      = root.querySelector('#mito-add');
-    const listEl      = root.querySelector('#mito-list');
-    const subtitleEls = root.querySelectorAll('.cap-subtitle');
+  // Controles
+  const btns        = root.querySelectorAll('.subtopic');
+  const notesEl     = root.querySelector('#mito-notes');
+  const saveBtn     = root.querySelector('#mito-save');
+  const urlInput    = root.querySelector('#mito-url');
+  const addBtn      = root.querySelector('#mito-add');
+  const listEl      = root.querySelector('#mito-list');
+  const subtitleEls = root.querySelectorAll('.cap-subtitle');
 
-    // Claves por subtítulo en localStorage
-    const noteKey = (sub) => `notes_${sectionId}__${sub}`;
-    const urlKey  = (sub) => `pdfs_${sectionId}__${sub}`;
+  // Estado visual de validación (D1.2)
+  const statusEl = root.querySelector('#mito-status');
+  const sourceEl = root.querySelector('#mito-source');
 
-    let currentSub = null;
+  function setStatus(msg){
+    if (statusEl) statusEl.textContent = msg || '';
+  }
 
-    function setSubtitleLabel(text){
-      subtitleEls.forEach(el => el.textContent = text || '—');
-    }
+  function setSource(msg){
+    if (sourceEl) sourceEl.textContent = msg || '';
+  }
 
-    function renderUrls(urls){
-      listEl.innerHTML = '';
-      urls.forEach((u, i) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="${u}" target="_blank" rel="noopener">${u}</a>
-                        <button data-idx="${i}" title="Eliminar">✕</button>`;
-        listEl.appendChild(li);
-      });
-    }
 
-    function loadSubtopic(sub){
-      currentSub = sub;
 
-      // Estado visual activo en los botones
-      btns.forEach(b => b.classList.toggle('active', b.dataset.sub === sub));
+  // ✅ URLs siguen en localStorage (NO se cambia en Fase C)
+  const urlKey  = (sub) => `pdfs_${sectionId}__${sub}`;
 
-      // Texto del subtítulo en las etiquetas
-      const btn   = Array.from(btns).find(b => b.dataset.sub === sub);
-      const label = btn ? btn.textContent.trim() : sub;
-      setSubtitleLabel(label);
+  let currentSub = null;
 
-      // Cargar notas
-      const saved = localStorage.getItem(noteKey(sub)) || '';
-      notesEl.value = saved;
+  // Normaliza a slug de backend: "Agitacion-oceanos" -> "agitacion-oceanos"
+  function toBackendSubtopic(sub){
+    return String(sub || '')
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '-');
+  }
 
-      // Cargar URLs
-      const urls = JSON.parse(localStorage.getItem(urlKey(sub)) || '[]');
-      renderUrls(urls);
-    }
+  function setSubtitleLabel(text){
+    subtitleEls.forEach(el => el.textContent = text || '—');
+  }
 
-    function saveNotes(){
-      if (!currentSub) return;
-      localStorage.setItem(noteKey(currentSub), notesEl.value || '');
-    }
-
-    function addUrl(){
-      if (!currentSub) return;
-      const url = (urlInput.value || '').trim();
-      if (!url) return;
-
-      const k    = urlKey(currentSub);
-      const urls = JSON.parse(localStorage.getItem(k) || '[]');
-      urls.push(url);
-      localStorage.setItem(k, JSON.stringify(urls));
-      renderUrls(urls);
-      urlInput.value = '';
-    }
-
-    function removeUrl(idx){
-      if (!currentSub) return;
-      const k    = urlKey(currentSub);
-      const urls = JSON.parse(localStorage.getItem(k) || '[]');
-      urls.splice(idx, 1);
-      localStorage.setItem(k, JSON.stringify(urls));
-      renderUrls(urls);
-    }
-
-    // Eventos
-    btns.forEach(b => b.addEventListener('click', () => loadSubtopic(b.dataset.sub)));
-    saveBtn.addEventListener('click', saveNotes);
-    addBtn.addEventListener('add-url', addUrl);
-    listEl.addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-idx')){
-        removeUrl(Number(e.target.dataset.idx));
-      }
+  function renderUrls(urls){
+    listEl.innerHTML = '';
+    urls.forEach((u, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${u}" target="_blank" rel="noopener">${u}</a>
+                      <button data-idx="${i}" title="Eliminar">✕</button>`;
+      listEl.appendChild(li);
     });
+  }
 
-    // Seleccionar el primer subtítulo por defecto
-    if (btns.length) loadSubtopic(btns[0].dataset.sub);
-  })();
-  </script>
+  async function fetchNota(sub){
+    const slug = toBackendSubtopic(sub);
+    const r = await fetch(`${API_BASE}/mitologia/nota/${encodeURIComponent(slug)}`);
+    if (!r.ok) {
+      // Si falla, no rompemos UI: mostramos vacío
+      return '';
+    }
+    const data = await r.json();
+    // contrato backend nuevo: { subtopic, nota }
+    return data?.nota || '';
+  }
+
+  async function saveNota(sub, nota){
+    const slug = toBackendSubtopic(sub);
+    const r = await fetch(`${API_BASE}/mitologia/nota/${encodeURIComponent(slug)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nota: nota || '' })
+    });
+    if (!r.ok) {
+      const txt = await r.text().catch(() => '');
+      throw new Error(`Error guardando nota (${r.status}): ${txt}`);
+    }
+    return r.json();
+  }
+
+  async function loadSubtopic(sub){
+    currentSub = sub;
+
+    // Estado visual activo
+    btns.forEach(b => b.classList.toggle('active', b.dataset.sub === sub));
+
+    // Etiquetas
+    const btn = Array.from(btns).find(b => b.dataset.sub === sub);
+    const label = btn ? btn.textContent.trim() : sub;
+    setSubtitleLabel(label);
+
+    // Cargar NOTAS desde backend
+    notesEl.value = 'Cargando...';
+    try{
+      const nota = await fetchNota(sub);
+      notesEl.value = nota;
+      setSource('Fuente: backend (FastAPI / SQLite)');
+      setStatus('Nota cargada ✓');
+      setTimeout(() => setStatus(''), 1200);
+    } catch(e){
+      notesEl.value = '';
+      console.error(e);
+      alert('No pude cargar la nota desde el backend. Revisa que el backend esté levantado en 127.0.0.1:8000.');
+    }
+
+    // Cargar URLs desde localStorage (sin cambios)
+    const urls = JSON.parse(localStorage.getItem(urlKey(sub)) || '[]');
+    renderUrls(urls);
+  }
+
+  async function onSaveNotes(){
+    if (!currentSub) return;
+    saveBtn.disabled = true;
+    const originalText = saveBtn.textContent;
+    saveBtn.textContent = 'Guardando...';
+
+    try{
+      await saveNota(currentSub, notesEl.value);
+      setStatus('Guardando en backend ✓');
+      setSource('Fuente: backend (FastAPI / SQLite)');
+      setTimeout(() => setStatus(''), 4000);
+      saveBtn.textContent = 'Guardado ✓';
+      setTimeout(() => (saveBtn.textContent = originalText), 1000);
+    } catch(e){
+      console.error(e);
+      alert('No pude guardar la nota en el backend. Revisa consola y que el backend esté arriba.');
+      saveBtn.textContent = originalText;
+    } finally {
+      saveBtn.disabled = false;
+    }
+  }
+
+  // URLs (local)
+  function addUrl(){
+    if (!currentSub) return;
+    const url = (urlInput.value || '').trim();
+    if (!url) return;
+
+    const k    = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.push(url);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+    urlInput.value = '';
+  }
+
+  function removeUrl(idx){
+    if (!currentSub) return;
+    const k    = urlKey(currentSub);
+    const urls = JSON.parse(localStorage.getItem(k) || '[]');
+    urls.splice(idx, 1);
+    localStorage.setItem(k, JSON.stringify(urls));
+    renderUrls(urls);
+  }
+
+  // Eventos
+  btns.forEach(b => b.addEventListener('click', () => loadSubtopic(b.dataset.sub)));
+  saveBtn.addEventListener('click', onSaveNotes);
+
+  // ✅ bug corregido: era "add-url", debe ser click
+  addBtn.addEventListener('click', addUrl);
+
+  listEl.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-idx')){
+      removeUrl(Number(e.target.dataset.idx));
+    }
+  });
+
+  // Seleccionar el primero por defecto
+  if (btns.length) loadSubtopic(btns[0].dataset.sub);
+})();
+</script>
 
   <script>
   /*--------------------------------------------------------------
